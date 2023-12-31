@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="x-icon" href="resimler/popcorn.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>KAYIT</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url(resimler/movie.jpg);
+            background-position: center;
+        }
+
+        .arkaplan {
+            background-color: rgb(27, 53, 72);
+            width: 500px;
+            height: 600px;
+            border: black;
+            border-radius: 10%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .yazi {
+            width: 400px;
+            height: 200px;
+            font-weight: bold;
+            padding-top: 25px;
+            padding-left: 100px;
+            color: #0f171e;
+        }
+
+        h1 {
+            color: #0f171e;
+            text-align: center;
+            padding-top: 5px;
+            font-weight: bold;
+        }
+
+        i {
+            padding-top: 20px;
+            font-size: 60px;
+            padding-left: 220px;
+            display: inline;
+            color: #0f171e;
+        }
+
+        .button {
+            text-align: center;
+            padding-top: 30px;
+
+        }
+
+        a {
+            text-decoration: none;
+            color: #0f171e;
+            font-size: large;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: rgb(255, 255, 255);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="arkaplan">
+        <br>
+        <i class="fa-solid fa-user-plus"></i>
+        <br>
+        <h1>KAYIT OL</h1>
+
+        <form id="registerForm">
+
+            <table class="yazi">
+                <tr>
+                    <td>Ad: </td>
+                    <td><input type="text" name="name"></td>
+                </tr>
+
+                <tr>
+                    <td>Soyad: </td>
+                    <td><input type="text" name="surname"></td>
+                </tr>
+                <tr>
+                    <td>Email Adres: </td>
+                    <td><input type="email" name="email"></td>
+                </tr>
+                <tr>
+                    <td>Şifre: </td>
+                    <td><input type="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td>Cinsiyet : </td>
+                    <td>
+                        <input id="kadınRadio" type="radio" name="cinsiyetRadio" value="Kadın" checked="true"
+                            name="gender">
+                        <label for="kadınRadio">Kadın</label>
+                        <input id="erkekRadio" type="radio" name="cinsiyetRadio" value="Erkek" name="gender">
+                        <label for="erkekRadio">Erkek</label>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Doğum Tarihi: </td>
+                    <td><input type="date" name="birthdate"></td>
+
+                </tr>
+
+            </table>
+
+            <div class="button">
+
+                <input type="submit" value="KAYIT OL" style="margin-right: 15px;">
+                <input type="reset" value="TEMİZLE">
+                <br> <br> <br>
+                <a href="http://127.0.0.1:5501/login.html"> Giriş yapmak için tıklayınız...</a>
+            </div>
+
+        </form>
+
+    </div>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const registerForm = document.getElementById('registerForm');
+
+            registerForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const name = registerForm.querySelector('input[name="name"]').value;
+                const surname = registerForm.querySelector('input[name="surname"]').value;
+                const email = registerForm.querySelector('input[name="email"]').value;
+                const password = registerForm.querySelector('input[name="password"]').value;
+                const gender = registerForm.querySelector('input[name="cinsiyetRadio"]:checked').value;
+                const birthdate = registerForm.querySelector('input[name="birthdate"]').value;
+
+                if (!name || !surname || !email || !password || !birthdate) {
+                    alert("Lütfen tüm alanları doldurun!");
+                    return;
+                }
+
+                // Retrieve existing users from local storage
+                const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+                // Check if the email is already registered
+                if (existingUsers.some(user => user.email === email)) {
+                    alert("Bu e-posta adresi zaten kayıtlı!");
+                    return;
+                }
+
+                // Create a new user object
+                const newUser = {
+                    name: name,
+                    surname: surname,
+                    email: email,
+                    password: password,
+                    gender: gender,
+                    birthdate: birthdate,
+                };
+
+                // Add the new user to the existing users array
+                existingUsers.push(newUser);
+
+                // Save the updated users array back to local storage
+                localStorage.setItem('users', JSON.stringify(existingUsers));
+
+                alert("Kayıt Başarılı...");
+                window.location.href = 'http://127.0.0.1:5501/login.html';
+            });
+        });
+    </script>
+</body>
+
+</html>
